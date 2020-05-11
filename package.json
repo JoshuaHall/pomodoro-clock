@@ -2,6 +2,7 @@
   "name": "pomodoro-clock",
   "version": "0.1.0",
   "private": true,
+  "main": "./src/PomodoroClock.tsx",
   "author": {
     "name": "Joshua Hall",
     "email": "joshuahallmail@gmail.com"

@@ -172,7 +172,7 @@ export function PomodoroClock({
   );
 
   return (
-    <div className="container">
+    <>
       <h1 className="title has-text-centered">Pomodoro Clock</h1>
       <div className="columns">
         <TimerLengthControl
@@ -207,6 +207,6 @@ export function PomodoroClock({
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }

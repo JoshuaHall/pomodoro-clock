@@ -13,7 +13,7 @@ ReactDOM.render(
     <PomodoroClock
       initialSession={initialSession}
       initialBreak={initialBreak}
-      beepSrcUrl="http://soundbible.com/mp3/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3"
+      beepSrcUrl="https://soundbible.com/mp3/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3"
       beepLengthMs={3500}
     />
   </React.StrictMode>,

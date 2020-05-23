@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+type TimerType = 'session' | 'break';
+
 interface TimerLengthControlProps {
   decrement: () => void;
   increment: () => void;
@@ -7,16 +9,14 @@ interface TimerLengthControlProps {
   timerLength: number;
 }
 
-type TimerType = 'session' | 'break';
-
-export function TimerLengthControl({
+export const TimerLengthControl = React.memo(function TimerLengthControl({
   decrement,
   increment,
   timerType,
   timerLength,
 }: TimerLengthControlProps): ReactElement<TimerLengthControlProps> {
   return (
-    <div className="column">
+    <div className="column is-narrow">
       <p id={`${timerType}-label`} className="is-capitalized">
         {timerType} Length: <span id={`${timerType}-length`}>{timerLength}</span>
       </p>
@@ -30,4 +30,4 @@ export function TimerLengthControl({
       </div>
     </div>
   );
-}
+});

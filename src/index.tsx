@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {
+  PomodoroClock,
+  defaultInitialSession,
+  defaultInitialBreak,
+  defaultBeepSrcUrl,
+  defaultBeepLengthMs,
+} from './PomodoroClock';
+
 import 'bulma';
-
-import { PomodoroClock } from './PomodoroClock';
-
-const initialBreak = 5;
-const initialSession = 25;
 
 ReactDOM.render(
   <React.StrictMode>
     <PomodoroClock
-      initialSession={initialSession}
-      initialBreak={initialBreak}
-      beepSrcUrl="https://soundbible.com/mp3/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3"
-      beepLengthMs={3500}
+      initialSession={defaultInitialSession}
+      initialBreak={defaultInitialBreak}
+      beepSrcUrl={defaultBeepSrcUrl}
+      beepLengthMs={defaultBeepLengthMs}
     />
   </React.StrictMode>,
   document.getElementById('root'),

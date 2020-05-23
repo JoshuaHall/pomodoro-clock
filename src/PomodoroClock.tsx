@@ -1,4 +1,4 @@
-import React, { useState, useRef, ReactElement } from 'react';
+import React, { useState, useRef, ReactElement, useCallback } from 'react';
 import { useInterval } from './hooks/useInterval';
 
 import { TimerLengthControl } from './TimerLengthControl';
@@ -50,6 +50,11 @@ enum ClockState {
   Break,
 }
 
+export const defaultInitialSession = 25;
+export const defaultInitialBreak = 5;
+export const defaultBeepSrcUrl = 'https://soundbible.com/mp3/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3';
+export const defaultBeepLengthMs = 3500;
+
 interface PomodoroClockProps {
   initialSession: number;
   initialBreak: number;
@@ -76,7 +81,7 @@ export function PomodoroClock({
 
   const audioBeepNode = useRef<HTMLAudioElement>(null);
 
-  function decrementBreak(): void {
+  const decrementBreak = useCallback((): void => {
     if (!isCounting) {
       const newBreakLength = clampedDecrement(breakLength);
 
@@ -86,9 +91,9 @@ export function PomodoroClock({
         setTimeLeft(minutesToSeconds(newBreakLength));
       }
     }
-  }
+  }, [breakLength, clockState, isCounting]);
 
-  function incrementBreak(): void {
+  const incrementBreak = useCallback((): void => {
     if (!isCounting) {
       const newBreakLength = clampedIncrement(breakLength);
 
@@ -98,9 +103,9 @@ export function PomodoroClock({
         setTimeLeft(minutesToSeconds(newBreakLength));
       }
     }
-  }
+  }, [breakLength, clockState, isCounting]);
 
-  function decrementSession(): void {
+  const decrementSession = useCallback((): void => {
     if (!isCounting) {
       const newSessionLength = clampedDecrement(sessionLength);
 
@@ -110,9 +115,9 @@ export function PomodoroClock({
         setTimeLeft(minutesToSeconds(newSessionLength));
       }
     }
-  }
+  }, [clockState, isCounting, sessionLength]);
 
-  function incrementSession(): void {
+  const incrementSession = useCallback((): void => {
     if (!isCounting) {
       const newSessionLength = clampedIncrement(sessionLength);
 
@@ -122,20 +127,20 @@ export function PomodoroClock({
         setTimeLeft(minutesToSeconds(newSessionLength));
       }
     }
-  }
+  }, [clockState, isCounting, sessionLength]);
 
-  function toggleIsCounting(): void {
+  const toggleIsCounting = useCallback((): void => {
     setIsCounting(toggle);
-  }
+  }, []);
 
-  function resetAudioBeep(): void {
+  const resetAudioBeep = useCallback((): void => {
     if (audioBeepNode.current !== null) {
       audioBeepNode.current.pause();
       audioBeepNode.current.currentTime = 0;
     }
-  }
+  }, []);
 
-  function reset(): void {
+  const reset = useCallback((): void => {
     setBreakLength(initialBreak);
     setSessionLength(initialSession);
     setTimeLeft(initialTimeLeft);
@@ -143,7 +148,7 @@ export function PomodoroClock({
     setClockState(ClockState.Session);
 
     resetAudioBeep();
-  }
+  }, [initialBreak, initialSession, initialTimeLeft, resetAudioBeep]);
 
   useInterval(
     () => {
@@ -174,7 +179,7 @@ export function PomodoroClock({
   return (
     <>
       <h1 className="title has-text-centered">Pomodoro Clock</h1>
-      <div className="columns">
+      <div className="columns is-centered">
         <TimerLengthControl
           timerType="break"
           timerLength={breakLength}
@@ -188,20 +193,20 @@ export function PomodoroClock({
           increment={incrementSession}
         />
       </div>
-      <div className="columns">
-        <div className="column">
+      <div className="columns is-centered">
+        <div className="column is-narrow">
           <div id="timer-label">{clockState === ClockState.Session ? 'Session' : 'Break'}</div>
           <div id="time-left">{secondsToMmSs(timeLeft)}</div>
           <audio id="beep" ref={audioBeepNode} preload="auto" src={beepSrcUrl}></audio>
         </div>
       </div>
-      <div className="columns">
-        <div className="column">
+      <div className="columns is-centered">
+        <div className="column is-narrow">
           <button id="start_stop" onClick={toggleIsCounting} className="button is-primary">
             Start/Stop
           </button>
         </div>
-        <div className="column">
+        <div className="column is-narrow">
           <button id="reset" onClick={reset} className="button is-danger">
             Reset
           </button>

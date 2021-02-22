@@ -4,7 +4,7 @@ import { accurateInterval } from '../accurateInterval';
 
 // Inspired by https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 export function useInterval(callback: () => void, delay: number | null): void {
-  const savedCallback = useRef<Function>();
+  const savedCallback = useRef<() => void>();
 
   // Remember the latest function.
   useEffect(() => {
